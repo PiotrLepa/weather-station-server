@@ -26,6 +26,7 @@ dependencies {
 	val springBootStarter = "2.3.1.BUILD-SNAPSHOT"
 	implementation("org.springframework.boot:spring-boot-starter:$springBootStarter")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootStarter")
+	implementation("org.springframework.boot:spring-boot-starter-web:$springBootStarter")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
