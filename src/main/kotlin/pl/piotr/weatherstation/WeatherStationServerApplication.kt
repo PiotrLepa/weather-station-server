@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class WeatherStationServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<WeatherStationServerApplication>(*args)
+  runApplication<WeatherStationServerApplication>(*args)
 }
