@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+  datasource:
+    platform: postgres
+    initialization-mode: always
+    url: jdbc:postgresql://localhost:5432/weather-station
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  properties:
+    hibernate:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
