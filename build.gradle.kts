@@ -32,6 +32,7 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2")
 	implementation("joda-time:joda-time:2.10.5")
 	implementation("org.postgresql:postgresql:42.2.9")
 }
