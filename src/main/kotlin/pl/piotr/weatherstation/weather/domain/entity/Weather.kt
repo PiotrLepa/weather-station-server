@@ -16,6 +16,15 @@ data class Weather(
   @Column(name = "temperature")
   val temperature: Double,
 
+  @Column(name = "pm1")
+  val pm1: Int,
+
+  @Column(name = "pm25")
+  val pm25: Int,
+
+  @Column(name = "pm10")
+  val pm10: Int,
+
   @Column(name = "creation_date")
   @CreationTimestamp
   val creationDate: Timestamp = Timestamp(0),
@@ -25,5 +34,5 @@ data class Weather(
   val id: Long? = null
 ) {
 
-  constructor() : this(0.0)
+  constructor() : this(0.0, 0, 0, 0)
 }
