@@ -16,6 +16,9 @@ data class Weather(
   @Column(name = "temperature")
   val temperature: Double,
 
+  @Column(name = "humidity")
+  val humidity: Double,
+
   @Column(name = "pm1")
   val pm1: Int,
 
@@ -34,5 +37,5 @@ data class Weather(
   val id: Long? = null
 ) {
 
-  constructor() : this(0.0, 0, 0, 0)
+  constructor() : this(0.0, 0.0, 0, 0, 0)
 }

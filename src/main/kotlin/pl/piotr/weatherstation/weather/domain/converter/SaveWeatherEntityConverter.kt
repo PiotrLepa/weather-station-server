@@ -10,6 +10,7 @@ class SaveWeatherEntityConverter : Converter<SaveWeatherDto, Weather> {
 
   override fun convert(from: SaveWeatherDto) = Weather(
       temperature = from.temperature,
+      humidity = from.humidity,
       pm1 = from.pm1,
       pm25 = from.pm25,
       pm10 = from.pm10

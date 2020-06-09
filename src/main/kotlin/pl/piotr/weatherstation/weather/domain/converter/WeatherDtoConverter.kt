@@ -10,6 +10,7 @@ class WeatherDtoConverter : Converter<Weather, WeatherDto> {
 
   override fun convert(from: Weather) = WeatherDto(
       temperature = from.temperature,
+      humidity = from.humidity,
       pm1 = from.pm1,
       pm25 = from.pm25,
       pm10 = from.pm10,
