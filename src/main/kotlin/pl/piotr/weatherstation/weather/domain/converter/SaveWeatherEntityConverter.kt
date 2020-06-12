@@ -13,6 +13,8 @@ class SaveWeatherEntityConverter : Converter<SaveWeatherDto, Weather> {
       humidity = from.humidity,
       pm1 = from.pm1,
       pm25 = from.pm25,
-      pm10 = from.pm10
+      pm10 = from.pm10,
+      windSpeedMax = from.windSpeedMax,
+      windSpeedAvg = from.windSpeedAvg
   )
 }
