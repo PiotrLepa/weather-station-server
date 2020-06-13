@@ -16,6 +16,7 @@ class WeatherDtoConverter : Converter<Weather, WeatherDto> {
       pm10 = from.pm10,
       windSpeedMax = from.windSpeedMax,
       windSpeedAvg = from.windSpeedAvg,
+      rainGauge = from.rainGauge,
       date = from.creationDate
   )
 }

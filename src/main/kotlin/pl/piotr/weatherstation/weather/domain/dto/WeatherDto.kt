@@ -10,5 +10,6 @@ data class WeatherDto(
   val pm10: Int,
   val windSpeedMax: Double,
   val windSpeedAvg: Double,
+  val rainGauge: Double,
   val date: Timestamp
 )

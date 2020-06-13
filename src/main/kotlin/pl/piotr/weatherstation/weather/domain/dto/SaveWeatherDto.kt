@@ -7,5 +7,6 @@ data class SaveWeatherDto(
   val pm25: Int,
   val pm10: Int,
   val windSpeedMax: Double,
-  val windSpeedAvg: Double
+  val windSpeedAvg: Double,
+  val rainGauge: Double
 )

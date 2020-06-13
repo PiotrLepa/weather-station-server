@@ -34,6 +34,9 @@ data class Weather(
   @Column(name = "wind_speed_avg")
   val windSpeedAvg: Double,
 
+  @Column(name = "rain_gauge")
+  val rainGauge: Double,
+
   @Column(name = "creation_date")
   @CreationTimestamp
   val creationDate: Timestamp = Timestamp(0),
@@ -43,5 +46,5 @@ data class Weather(
   val id: Long? = null
 ) {
 
-  constructor() : this(0.0, 0.0, 0, 0, 0, 0.0, 0.0)
+  constructor() : this(0.0, 0.0, 0, 0, 0, 0.0, 0.0, 0.0)
 }
