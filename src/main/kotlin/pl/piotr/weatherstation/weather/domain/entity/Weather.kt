@@ -19,6 +19,9 @@ data class Weather(
   @Column(name = "humidity")
   val humidity: Double,
 
+  @Column(name = "pressure")
+  val pressure: Int,
+
   @Column(name = "pm1")
   val pm1: Int,
 
@@ -37,6 +40,12 @@ data class Weather(
   @Column(name = "rain_gauge")
   val rainGauge: Double,
 
+  @Column(name = "latitude")
+  val latitude: Double,
+
+  @Column(name = "longitude")
+  val longitude: Double,
+
   @Column(name = "creation_date")
   @CreationTimestamp
   val creationDate: Timestamp = Timestamp(0),
@@ -46,5 +55,5 @@ data class Weather(
   val id: Long? = null
 ) {
 
-  constructor() : this(0.0, 0.0, 0, 0, 0, 0.0, 0.0, 0.0)
+  constructor() : this(0.0, 0.0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
 }
