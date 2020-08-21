@@ -41,10 +41,10 @@ data class Weather(
   val rainGauge: Double,
 
   @Column(name = "latitude")
-  val latitude: Double,
+  val latitude: Double?,
 
   @Column(name = "longitude")
-  val longitude: Double,
+  val longitude: Double?,
 
   @Column(name = "creation_date")
   @CreationTimestamp
@@ -55,5 +55,5 @@ data class Weather(
   val id: Long? = null
 ) {
 
-  constructor() : this(0.0, 0.0, 0, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0)
+  constructor() : this(0.0, 0.0, 0, 0, 0, 0, 0.0, 0.0, 0.0, null, null)
 }

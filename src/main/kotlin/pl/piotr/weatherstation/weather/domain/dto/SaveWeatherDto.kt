@@ -10,6 +10,6 @@ data class SaveWeatherDto(
   val windSpeedMax: Double,
   val windSpeedAvg: Double,
   val rainGauge: Double,
-  val latitude: Double,
-  val longitude: Double
+  val latitude: Double?,
+  val longitude: Double?
 )
