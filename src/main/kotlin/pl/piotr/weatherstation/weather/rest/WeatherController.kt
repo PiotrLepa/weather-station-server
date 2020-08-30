@@ -18,15 +18,15 @@ class WeatherController @Autowired constructor(
   private val weatherService: WeatherService
 ) {
 
-  @GetMapping("/current")
+  @GetMapping("/")
   fun getCurrentWeather(): ResponseEntity<WeatherDto> {
     val weather = weatherService.getCurrentWeather()
     return ResponseEntity(weather, HttpStatus.OK)
   }
 
-  @PostMapping("/current")
+  @PostMapping("/")
   fun saveWeather(@RequestBody saveWeatherDto: SaveWeatherDto): ResponseEntity<Unit> {
     weatherService.saveWeather(saveWeatherDto)
-    return ResponseEntity(HttpStatus.OK)
+    return ResponseEntity(HttpStatus.CREATED)
   }
 }
