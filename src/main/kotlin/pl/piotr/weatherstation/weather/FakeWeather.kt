@@ -62,8 +62,8 @@ object FakeWeather {
             rand(1.0, 10.0), rand(0.0, 10.0), null, null, Timestamp(dateTime.plusHours(23).toInstant(ZoneOffset.UTC).toEpochMilli()))
     )
   }
-
-  private fun rand(start: Double, end: Double): Double = (Random.nextDouble(start, end) * 10).toInt() / 10.0
+  
+  private fun rand(start: Double, end: Double): Float = (Random.nextDouble(start, end) * 10).toInt() / 10.0f
 
   private fun rand(start: Int, end: Int): Int = Random.nextInt(start, end)
 }

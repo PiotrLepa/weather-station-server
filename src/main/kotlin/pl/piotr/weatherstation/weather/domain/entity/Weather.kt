@@ -13,32 +13,32 @@ import javax.persistence.Table
 @Table(name = "weathers")
 data class Weather(
 
-  @Column(name = "temperature")
-  val temperature: Double,
+  @Column(name = "temperature", nullable = false)
+  val temperature: Float,
 
-  @Column(name = "humidity")
-  val humidity: Double,
+  @Column(name = "humidity", nullable = false)
+  val humidity: Float,
 
-  @Column(name = "pressure")
+  @Column(name = "pressure", nullable = false)
   val pressure: Int,
 
-  @Column(name = "pm1")
+  @Column(name = "pm1", nullable = false)
   val pm1: Int,
 
-  @Column(name = "pm25")
+  @Column(name = "pm25", nullable = false)
   val pm25: Int,
 
-  @Column(name = "pm10")
+  @Column(name = "pm10", nullable = false)
   val pm10: Int,
 
-  @Column(name = "wind_speed_max")
-  val windSpeedMax: Double,
+  @Column(name = "wind_speed_max", nullable = false)
+  val windSpeedMax: Float,
 
-  @Column(name = "wind_speed_avg")
-  val windSpeedAvg: Double,
+  @Column(name = "wind_speed_avg", nullable = false)
+  val windSpeedAvg: Float,
 
-  @Column(name = "rain_gauge")
-  val rainGauge: Double,
+  @Column(name = "rain_gauge", nullable = false)
+  val rainGauge: Float,
 
   @Column(name = "latitude")
   val latitude: Double?,
@@ -46,14 +46,14 @@ data class Weather(
   @Column(name = "longitude")
   val longitude: Double?,
 
-  @Column(name = "creation_date")
+  @Column(name = "creation_date", nullable = false)
   @CreationTimestamp
   val creationDate: Timestamp = Timestamp(0),
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: Long? = null
+  val weatherId: Long? = null
 ) {
 
-  constructor() : this(0.0, 0.0, 0, 0, 0, 0, 0.0, 0.0, 0.0, null, null)
+  constructor() : this(0.0f, 0.0f, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, null, null)
 }
