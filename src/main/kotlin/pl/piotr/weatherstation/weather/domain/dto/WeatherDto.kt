@@ -1,6 +1,6 @@
 package pl.piotr.weatherstation.weather.domain.dto
 
-import java.sql.Timestamp
+import java.time.LocalDateTime
 
 data class WeatherDto(
   val temperature: Float,
@@ -14,5 +14,5 @@ data class WeatherDto(
   val rainGauge: Float,
   val latitude: Double?,
   val longitude: Double?,
-  val date: Timestamp
+  val date: LocalDateTime
 )

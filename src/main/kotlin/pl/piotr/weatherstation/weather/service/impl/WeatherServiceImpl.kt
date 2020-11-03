@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.weather.FakeWeather
+import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Weather
@@ -15,7 +16,8 @@ import java.time.LocalDate
 class WeatherServiceImpl @Autowired constructor(
   private val repository: WeatherRepository,
   private val weatherDtoConverter: Converter<Weather, WeatherDto>,
-  private val saveWeatherEntityConverter: Converter<SaveWeatherDto, Weather>
+  private val saveWeatherEntityConverter: Converter<SaveWeatherDto, Weather>,
+  private val saveCachedWeatherEntityConverter: Converter<SaveCachedWeatherDto, Weather>
 ) : WeatherService {
 
   override fun getCurrentWeather(): WeatherDto =
@@ -29,5 +31,10 @@ class WeatherServiceImpl @Autowired constructor(
   override fun saveWeather(saveWeatherDto: SaveWeatherDto) {
     val weather = saveWeatherEntityConverter.convert(saveWeatherDto)
     repository.save(weather)
+  }
+
+  override fun saveCachedWeathers(weathers: List<SaveCachedWeatherDto>) {
+    val weathersToSave = weathers.map(saveCachedWeatherEntityConverter::convert)
+    repository.saveAll(weathersToSave)
   }
 }

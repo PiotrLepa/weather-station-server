@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component
 import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Weather
+import java.time.LocalDateTime
 
 @Component
 class SaveWeatherEntityConverter : Converter<SaveWeatherDto, Weather> {
@@ -19,6 +20,7 @@ class SaveWeatherEntityConverter : Converter<SaveWeatherDto, Weather> {
       windSpeedAvg = from.windSpeedAvg,
       rainGauge = from.rainGauge,
       latitude = from.latitude,
-      longitude = from.longitude
+      longitude = from.longitude,
+      creationDate = LocalDateTime.now()
   )
 }

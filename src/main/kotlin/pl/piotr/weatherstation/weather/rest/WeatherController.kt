@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.service.WeatherService
@@ -36,8 +37,14 @@ class WeatherController @Autowired constructor(
   }
 
   @PostMapping("")
-  fun saveWeather(@RequestBody saveWeatherDto: SaveWeatherDto): ResponseEntity<Unit> {
-    weatherService.saveWeather(saveWeatherDto)
+  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto): ResponseEntity<Unit> {
+    weatherService.saveWeather(weatherToSave)
+    return ResponseEntity(HttpStatus.CREATED)
+  }
+
+  @PostMapping("/cached")
+  fun saveCachedWeather(@RequestBody weathersToSave: List<SaveCachedWeatherDto>): ResponseEntity<Unit> {
+    weatherService.saveCachedWeathers(weathersToSave)
     return ResponseEntity(HttpStatus.CREATED)
   }
 }

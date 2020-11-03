@@ -1,7 +1,6 @@
 package pl.piotr.weatherstation.weather.domain.entity
 
-import org.hibernate.annotations.CreationTimestamp
-import java.sql.Timestamp
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -47,13 +46,12 @@ data class Weather(
   val longitude: Double?,
 
   @Column(name = "creation_date", nullable = false)
-  @CreationTimestamp
-  val creationDate: Timestamp = Timestamp(0),
+  val creationDate: LocalDateTime,
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   val weatherId: Long? = null
 ) {
 
-  constructor() : this(0.0f, 0.0f, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, null, null)
+  constructor() : this(0.0f, 0.0f, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, null, null, LocalDateTime.now())
 }
