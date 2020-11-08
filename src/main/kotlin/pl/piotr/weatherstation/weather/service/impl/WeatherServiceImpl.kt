@@ -37,4 +37,8 @@ class WeatherServiceImpl @Autowired constructor(
     val weathersToSave = weathers.map(saveCachedWeatherEntityConverter::convert)
     repository.saveAll(weathersToSave)
   }
+
+  override fun rainDetected() {
+
+  }
 }
