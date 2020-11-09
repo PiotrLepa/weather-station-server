@@ -3,8 +3,10 @@ package pl.piotr.weatherstation.core.firebase
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
+import com.google.firebase.messaging.FirebaseMessaging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Bean
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
@@ -29,4 +31,7 @@ class FirebaseConfiguration @Autowired constructor(
         .build()
     FirebaseApp.initializeApp(options)
   }
+
+  @Bean
+  fun firebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
 }
