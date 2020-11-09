@@ -28,6 +28,12 @@ class WeatherController @Autowired constructor(
     return ResponseEntity(weather, HttpStatus.OK)
   }
 
+  @PostMapping("")
+  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto): ResponseEntity<Unit> {
+    weatherService.saveWeather(weatherToSave)
+    return ResponseEntity(HttpStatus.CREATED)
+  }
+
   @GetMapping("/hourly")
   fun getHourlyWeatherForDay(
     @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) day: LocalDate
@@ -36,15 +42,15 @@ class WeatherController @Autowired constructor(
     return ResponseEntity(weather, HttpStatus.OK)
   }
 
-  @PostMapping("")
-  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto): ResponseEntity<Unit> {
-    weatherService.saveWeather(weatherToSave)
-    return ResponseEntity(HttpStatus.CREATED)
-  }
-
   @PostMapping("/cached")
   fun saveCachedWeather(@RequestBody weathersToSave: List<SaveCachedWeatherDto>): ResponseEntity<Unit> {
     weatherService.saveCachedWeathers(weathersToSave)
     return ResponseEntity(HttpStatus.CREATED)
+  }
+
+  @PostMapping("/rain-detected")
+  fun rainDetected(): ResponseEntity<Unit> {
+    weatherService.rainDetected()
+    return ResponseEntity(HttpStatus.OK)
   }
 }

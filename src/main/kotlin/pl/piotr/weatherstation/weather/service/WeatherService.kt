@@ -14,4 +14,6 @@ interface WeatherService {
   fun saveWeather(saveWeatherDto: SaveWeatherDto)
 
   fun saveCachedWeathers(weathers: List<SaveCachedWeatherDto>)
+
+  fun rainDetected()
 }

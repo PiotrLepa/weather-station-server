@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.3.1.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	val kotlinVersion = "1.3.72"
+	val kotlinVersion = "1.4.10"
 	kotlin("jvm") version kotlinVersion
 	kotlin("plugin.spring") version kotlinVersion
 	kotlin("plugin.jpa") version kotlinVersion
@@ -32,9 +32,9 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2")
-	implementation("joda-time:joda-time:2.10.5")
-	implementation("org.postgresql:postgresql:42.2.9")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
+	implementation("org.postgresql:postgresql:42.2.18")
+	implementation("com.google.firebase:firebase-admin:7.0.1")
 }
 
 tasks.withType<Test> {
