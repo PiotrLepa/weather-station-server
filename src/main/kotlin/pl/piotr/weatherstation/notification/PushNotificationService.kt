@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import pl.piotr.weatherstation.core.extensions.getMessageForLocale
 import pl.piotr.weatherstation.core.language.LocaleProvider
 import pl.piotr.weatherstation.notification.enum.NotificationTopic
+import pl.piotr.weatherstation.notification.enum.NotificationType
 import java.util.Locale
 
 @Service
@@ -35,6 +36,9 @@ class PushNotificationService @Autowired constructor(
                 .setBody(body)
                 .build()
         )
+        .putAllData(mapOf(
+            NOTIFICATION_TYPE to NotificationType.RAIN_DETECTED.toString()
+        ))
         .build()
     firebaseMessaging.send(message)
   }
@@ -45,5 +49,7 @@ class PushNotificationService @Autowired constructor(
   companion object {
     private const val FLUTTER_CLICK_ACTION_KEY = "click_action"
     private const val FLUTTER_CLICK_ACTION_VALUE = "FLUTTER_NOTIFICATION_CLICK"
+
+    private const val NOTIFICATION_TYPE = "TYPE"
   }
 }
