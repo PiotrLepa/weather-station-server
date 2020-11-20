@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
@@ -29,9 +30,9 @@ class WeatherController @Autowired constructor(
   }
 
   @PostMapping("")
-  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto): ResponseEntity<Unit> {
+  @ResponseStatus(HttpStatus.CREATED)
+  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto) {
     weatherService.saveWeather(weatherToSave)
-    return ResponseEntity(HttpStatus.CREATED)
   }
 
   @GetMapping("/hourly")
@@ -43,14 +44,14 @@ class WeatherController @Autowired constructor(
   }
 
   @PostMapping("/cached")
-  fun saveCachedWeather(@RequestBody weathersToSave: List<SaveCachedWeatherDto>): ResponseEntity<Unit> {
+  @ResponseStatus(HttpStatus.CREATED)
+  fun saveCachedWeather(@RequestBody weathersToSave: List<SaveCachedWeatherDto>) {
     weatherService.saveCachedWeathers(weathersToSave)
-    return ResponseEntity(HttpStatus.CREATED)
   }
 
   @PostMapping("/rain-detected")
-  fun rainDetected(): ResponseEntity<Unit> {
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  fun rainDetected() {
     weatherService.rainDetected()
-    return ResponseEntity(HttpStatus.OK)
   }
 }

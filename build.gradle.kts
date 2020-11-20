@@ -35,6 +35,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
 	implementation("org.postgresql:postgresql:42.2.18")
 	implementation("com.google.firebase:firebase-admin:7.0.1")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
 }
 
 tasks.withType<Test> {
