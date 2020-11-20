@@ -1,5 +1,6 @@
 package pl.piotr.weatherstation.weather.rest
 
+import io.swagger.annotations.ApiOperation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.HttpStatus
@@ -24,6 +25,7 @@ class WeatherController @Autowired constructor(
 ) {
 
   @GetMapping("")
+  @ApiOperation(value = "Get recently collected weather data")
   fun getCurrentWeather(): ResponseEntity<WeatherDto> {
     val weather = weatherService.getCurrentWeather()
     return ResponseEntity(weather, HttpStatus.OK)
@@ -31,13 +33,16 @@ class WeatherController @Autowired constructor(
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  fun saveWeather(@RequestBody weatherToSave: SaveWeatherDto) {
-    weatherService.saveWeather(weatherToSave)
+  @ApiOperation(value = "Save collected weather data")
+  fun saveWeather(@RequestBody weather: SaveWeatherDto) {
+    weatherService.saveWeather(weather)
   }
 
   @GetMapping("/hourly")
+  @ApiOperation(value = "Get weather data for a specific day in hourly format")
   fun getHourlyWeatherForDay(
-    @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) day: LocalDate
+    @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE
+    ) day: LocalDate
   ): ResponseEntity<List<WeatherDto>> {
     val weather = weatherService.getHourlyWeatherForDay(day)
     return ResponseEntity(weather, HttpStatus.OK)
@@ -45,12 +50,14 @@ class WeatherController @Autowired constructor(
 
   @PostMapping("/cached")
   @ResponseStatus(HttpStatus.CREATED)
-  fun saveCachedWeather(@RequestBody weathersToSave: List<SaveCachedWeatherDto>) {
-    weatherService.saveCachedWeathers(weathersToSave)
+  @ApiOperation(value = "Save a list of weathers data collected")
+  fun saveCachedWeather(@RequestBody weathers: List<SaveCachedWeatherDto>) {
+    weatherService.saveCachedWeathers(weathers)
   }
 
   @PostMapping("/rain-detected")
   @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ApiOperation(value = "Send notification to app when rain is detected")
   fun rainDetected() {
     weatherService.rainDetected()
   }
