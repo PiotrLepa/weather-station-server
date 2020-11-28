@@ -16,4 +16,4 @@ spring:
 
 app:
   firebase-configuration-file: firebase/serviceAccountKey.json
-  firebase-database-url: https://weather-station-2e121.firebaseio.com
+  firebase-database-url: https://weather-station-714d9.firebaseio.com
