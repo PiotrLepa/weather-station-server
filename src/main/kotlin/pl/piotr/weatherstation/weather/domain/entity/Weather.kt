@@ -1,11 +1,14 @@
 package pl.piotr.weatherstation.weather.domain.entity
 
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -39,19 +42,18 @@ data class Weather(
   @Column(name = "rain_gauge", nullable = false)
   val rainGauge: Float,
 
-  @Column(name = "latitude")
-  val latitude: Double?,
-
-  @Column(name = "longitude")
-  val longitude: Double?,
+  @ManyToOne(cascade = [CascadeType.ALL])
+  @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+  val address: Address?,
 
   @Column(name = "creation_date", nullable = false)
   val creationDate: LocalDateTime,
 
   @Id
+  @Column(name = "weather_id", unique = true, nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   val weatherId: Long? = null
 ) {
 
-  constructor() : this(0.0f, 0.0f, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, null, null, LocalDateTime.now())
+  constructor() : this(0.0f, 0.0f, 0, 0, 0, 0, 0.0f, 0.0f, 0.0f, Address(), LocalDateTime.now())
 }

@@ -11,7 +11,7 @@ interface WeatherService {
 
   fun getHourlyWeatherForDay(day: LocalDate): List<WeatherDto>
 
-  fun saveWeather(saveWeatherDto: SaveWeatherDto)
+  fun saveWeather(dto: SaveWeatherDto)
 
   fun saveCachedWeathers(weathers: List<SaveCachedWeatherDto>)
 

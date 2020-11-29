@@ -12,7 +12,6 @@ data class WeatherDto(
   val windSpeedMax: Float,
   val windSpeedAvg: Float,
   val rainGauge: Float,
-  val latitude: Double?,
-  val longitude: Double?,
+  val address: String?,
   val date: LocalDateTime
 )

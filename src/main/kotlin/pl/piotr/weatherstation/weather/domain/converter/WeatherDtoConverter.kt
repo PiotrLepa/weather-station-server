@@ -4,9 +4,12 @@ import org.springframework.stereotype.Component
 import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Weather
+import pl.piotr.weatherstation.weather.util.WeatherAddressFormatter
 
 @Component
-class WeatherDtoConverter : Converter<Weather, WeatherDto> {
+class WeatherDtoConverter(
+  private val addressFormatter: WeatherAddressFormatter,
+) : Converter<Weather, WeatherDto> {
 
   override fun convert(from: Weather) = WeatherDto(
       temperature = from.temperature,
@@ -18,8 +21,7 @@ class WeatherDtoConverter : Converter<Weather, WeatherDto> {
       windSpeedMax = from.windSpeedMax,
       windSpeedAvg = from.windSpeedAvg,
       rainGauge = from.rainGauge,
-      latitude = from.latitude,
-      longitude = from.longitude,
+      address = from.address?.let { addressFormatter.format(it.city, it.street) },
       date = from.creationDate
   )
 }
