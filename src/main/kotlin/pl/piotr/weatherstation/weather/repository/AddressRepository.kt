@@ -1,10 +1,10 @@
-package pl.piotr.weatherstation.address.repository
+package pl.piotr.weatherstation.weather.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import pl.piotr.weatherstation.address.domain.entity.Address
+import pl.piotr.weatherstation.weather.domain.entity.Address
 
 @Repository
 interface AddressRepository : JpaRepository<Address, Long> {
@@ -16,7 +16,7 @@ interface AddressRepository : JpaRepository<Address, Long> {
       WHERE ABS(a.latitude - :latitude) < 0.001 AND ABS(a.longitude - :longitude) < 0.001
         """
   )
-  fun getClosestAddress(
+  fun getClosest(
     @Param("latitude") latitude: Double,
     @Param("longitude") longitude: Double
   ): Address?

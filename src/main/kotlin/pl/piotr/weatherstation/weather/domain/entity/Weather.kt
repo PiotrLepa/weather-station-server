@@ -1,6 +1,5 @@
 package pl.piotr.weatherstation.weather.domain.entity
 
-import pl.piotr.weatherstation.address.domain.entity.Address
 import java.time.LocalDateTime
 import javax.persistence.CascadeType
 import javax.persistence.Column

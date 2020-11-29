@@ -12,10 +12,6 @@ class GameEndedExceptionHandlerAdvice @Autowired constructor(
   private val messageSource: MessageSource
 ) {
 
-//  @ExceptionHandler(PasswordsAreDifferentException::class)
-//  fun handlePasswordsAreDifferentException(exception: PasswordsAreDifferentException) =
-//      createErrorResponse(HttpStatus.BAD_REQUEST, exception, "user.error.passwords_are_different")
-
   private fun createErrorResponse(
     status: HttpStatus,
     exception: Exception,

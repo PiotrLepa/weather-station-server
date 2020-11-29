@@ -1,9 +1,9 @@
 package pl.piotr.weatherstation.weather.domain.converter
 
 import org.springframework.stereotype.Component
-import pl.piotr.weatherstation.address.domain.entity.Address
 import pl.piotr.weatherstation.core.converter.ConverterWithArgs
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
+import pl.piotr.weatherstation.weather.domain.entity.Address
 import pl.piotr.weatherstation.weather.domain.entity.Weather
 
 @Component

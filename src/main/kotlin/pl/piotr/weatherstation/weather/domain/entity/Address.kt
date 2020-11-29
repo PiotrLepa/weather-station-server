@@ -1,4 +1,4 @@
-package pl.piotr.weatherstation.address.domain.entity
+package pl.piotr.weatherstation.weather.domain.entity
 
 import java.time.LocalDateTime
 import javax.persistence.Column

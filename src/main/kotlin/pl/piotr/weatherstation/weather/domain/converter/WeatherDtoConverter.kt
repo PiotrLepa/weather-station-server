@@ -1,13 +1,15 @@
 package pl.piotr.weatherstation.weather.domain.converter
 
 import org.springframework.stereotype.Component
-import pl.piotr.weatherstation.address.domain.entity.Address
 import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Weather
+import pl.piotr.weatherstation.weather.util.WeatherAddressFormatter
 
 @Component
-class WeatherDtoConverter : Converter<Weather, WeatherDto> {
+class WeatherDtoConverter(
+  private val addressFormatter: WeatherAddressFormatter,
+) : Converter<Weather, WeatherDto> {
 
   override fun convert(from: Weather) = WeatherDto(
       temperature = from.temperature,
@@ -19,19 +21,7 @@ class WeatherDtoConverter : Converter<Weather, WeatherDto> {
       windSpeedMax = from.windSpeedMax,
       windSpeedAvg = from.windSpeedAvg,
       rainGauge = from.rainGauge,
-      address = formatAddress(from.address),
+      address = from.address?.let { addressFormatter.format(it.city, it.street) },
       date = from.creationDate
   )
-
-  private fun formatAddress(address: Address?): String? {
-    return if (address != null) {
-      if (address.street != null) {
-        "${address.street}, ${address.city}"
-      } else {
-        address.city
-      }
-    } else {
-      null
-    }
-  }
 }

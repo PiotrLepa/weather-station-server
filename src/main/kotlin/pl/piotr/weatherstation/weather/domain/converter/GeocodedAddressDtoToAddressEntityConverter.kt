@@ -1,9 +1,9 @@
 package pl.piotr.weatherstation.weather.domain.converter
 
 import org.springframework.stereotype.Component
-import pl.piotr.weatherstation.address.domain.entity.Address
 import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
+import pl.piotr.weatherstation.weather.domain.entity.Address
 import java.time.LocalDateTime
 
 @Component
