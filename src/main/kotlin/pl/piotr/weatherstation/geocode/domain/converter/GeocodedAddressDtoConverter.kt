@@ -16,10 +16,10 @@ class GeocodedAddressDtoConverter : ConverterWithArgs<GeocodeResponse, GeocodedA
       street = parseStreet(from),
   )
 
-  private fun parseCity(from: GeocodeResponse): String = from.results
+  private fun parseCity(from: GeocodeResponse): String? = from.results
       .mapNotNull { it.addressComponents.firstOrNull { GeocodeAddressType.CITY.apiType in it.types } }
-      .first()
-      .longName
+      .firstOrNull()
+      ?.longName
 
   private fun parseStreet(from: GeocodeResponse): String? = from.results
       .mapNotNull { it.addressComponents.firstOrNull { GeocodeAddressType.STREET.apiType in it.types } }

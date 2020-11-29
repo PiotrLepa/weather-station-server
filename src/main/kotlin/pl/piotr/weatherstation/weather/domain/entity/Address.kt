@@ -19,7 +19,7 @@ data class Address(
   val longitude: Double,
 
   @Column(name = "city")
-  val city: String,
+  val city: String?,
 
   @Column(name = "street")
   val street: String?,
