@@ -12,8 +12,9 @@ interface AddressRepository : JpaRepository<Address, Long> {
   @Query(
       nativeQuery = true,
       value = """
-      SELECT a.latitude, a.longitude, a.city, a.street, a.creation_date, a.address_id FROM addresses AS a 
-      WHERE ABS(a.latitude - :latitude) < 0.001 AND ABS(a.longitude - :longitude) < 0.001
+          SELECT a.latitude, a.longitude, a.city, a.street, a.creation_date, a.address_id FROM addresses AS a 
+          WHERE ABS(a.latitude - :latitude) < 0.001 AND ABS(a.longitude - :longitude) < 0.001
+          LIMIT 1
         """
   )
   fun getClosest(
