@@ -28,15 +28,16 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootStarter")
 	implementation("org.springframework.boot:spring-boot-starter-web:$springBootStarter")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test") {
-		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
-	}
+  testImplementation("org.springframework.boot:spring-boot-starter-test") {
+    exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+  }
 
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
-	implementation("org.postgresql:postgresql:42.2.18")
-	implementation("com.google.firebase:firebase-admin:7.0.1")
-	implementation("io.springfox:springfox-boot-starter:3.0.0")
-	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
+  implementation("org.postgresql:postgresql:42.2.18")
+  implementation("com.google.firebase:firebase-admin:7.0.1")
+  implementation("io.springfox:springfox-boot-starter:3.0.0")
+  implementation("io.springfox:springfox-swagger-ui:3.0.0")
+  implementation("com.squareup.okhttp3:okhttp:4.10.0-RC1")
 }
 
 tasks.withType<Test> {

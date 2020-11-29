@@ -17,3 +17,4 @@ spring:
 app:
   firebase-configuration-file: firebase/serviceAccountKey.json
   firebase-database-url: https://weather-station-714d9.firebaseio.com
+  google-cloud-platform-key: AIzaSyC5iJ-5_UHz57vfnVrxPhPeejRuSmr4h2A
