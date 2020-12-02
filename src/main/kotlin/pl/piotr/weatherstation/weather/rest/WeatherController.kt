@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
+import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
 import pl.piotr.weatherstation.weather.service.WeatherService
 import java.time.LocalDate
 
@@ -43,7 +44,7 @@ class WeatherController @Autowired constructor(
   fun getHourlyWeatherForDay(
     @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE
     ) day: LocalDate
-  ): ResponseEntity<List<WeatherDto>> {
+  ): ResponseEntity<List<HourlyWeather>> {
     val weather = weatherService.getHourlyWeatherForDay(day)
     return ResponseEntity(weather, HttpStatus.OK)
   }

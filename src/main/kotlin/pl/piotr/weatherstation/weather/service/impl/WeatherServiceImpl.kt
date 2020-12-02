@@ -8,16 +8,18 @@ import pl.piotr.weatherstation.core.notnull.ifNotNull
 import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
 import pl.piotr.weatherstation.geocode.service.GeocodeService
 import pl.piotr.weatherstation.notification.PushNotificationService
-import pl.piotr.weatherstation.weather.FakeWeather
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Address
+import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
 import pl.piotr.weatherstation.weather.domain.entity.Weather
 import pl.piotr.weatherstation.weather.repository.AddressRepository
 import pl.piotr.weatherstation.weather.repository.WeatherRepository
 import pl.piotr.weatherstation.weather.service.WeatherService
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Service
 class WeatherServiceImpl @Autowired constructor(
@@ -35,8 +37,11 @@ class WeatherServiceImpl @Autowired constructor(
       weatherRepository.findFirstByOrderByCreationDateDesc()
           .let(weatherDtoConverter::convert)
 
-  override fun getHourlyWeatherForDay(day: LocalDate): List<WeatherDto> {
-    return FakeWeather.getHourlyWeather(day)
+  override fun getHourlyWeatherForDay(day: LocalDate): List<HourlyWeather> {
+    return weatherRepository.getHourlyForDay(
+        LocalDateTime.of(day, LocalTime.of(0, 0)),
+        LocalDateTime.of(day.plusDays(1), LocalTime.of(0, 0)),
+    )
   }
 
   override fun saveWeather(dto: SaveWeatherDto) {
