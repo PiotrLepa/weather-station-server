@@ -11,10 +11,10 @@ class LanguageModule(
 ) {
   @Bean
   fun messageSource(): MessageSource = ResourceBundleMessageSource()
-      .apply {
-        setBasename("i18n/messages")
-        setDefaultEncoding("UTF-8")
-        setFallbackToSystemLocale(false)
-        setDefaultLocale(localeProvider.defaultLocale)
-      }
+    .apply {
+      setBasename("i18n/messages")
+      setDefaultEncoding("UTF-8")
+      setFallbackToSystemLocale(false)
+      setDefaultLocale(localeProvider.defaultLocale)
+    }
 }

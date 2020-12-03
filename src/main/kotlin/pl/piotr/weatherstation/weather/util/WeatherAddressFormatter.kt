@@ -7,5 +7,5 @@ import pl.piotr.weatherstation.core.extensions.toNullIfBlank
 class WeatherAddressFormatter {
 
   fun format(city: String?, street: String?): String? =
-      listOfNotNull(street, city).joinToString(separator = ", ").toNullIfBlank()
+    listOfNotNull(street, city).joinToString(separator = ", ").toNullIfBlank()
 }

@@ -10,13 +10,13 @@ import pl.piotr.weatherstation.weather.domain.entity.Address
 interface AddressRepository : JpaRepository<Address, Long> {
 
   @Query(
-      """
+    """
         SELECT a.latitude, a.longitude, a.city, a.street, a.creation_date, a.address_id 
         FROM addresses AS a 
         WHERE ABS(a.latitude - :latitude) < 0.001 AND ABS(a.longitude - :longitude) < 0.001
         LIMIT 1
       """,
-      nativeQuery = true
+    nativeQuery = true
   )
   fun getClosest(
     @Param("latitude") latitude: Double,

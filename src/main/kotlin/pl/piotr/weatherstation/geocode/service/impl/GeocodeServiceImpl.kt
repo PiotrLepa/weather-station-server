@@ -25,29 +25,29 @@ class GeocodeServiceImpl(
 
   override fun reverse(latitude: Double, longitude: Double): GeocodedAddressDto? {
     val url = createBaseUrl().addQueryParameter("latlng", "$latitude, $longitude")
-        .build()
+      .build()
 
     return executeRequest(url)
-        ?.let { geocodedAddressDtoConverter.convert(it, GeocodedAddressDtoConverterArgs(latitude, longitude)) }
+      ?.let { geocodedAddressDtoConverter.convert(it, GeocodedAddressDtoConverterArgs(latitude, longitude)) }
   }
 
   private fun createBaseUrl(): HttpUrl.Builder = API_URL.toHttpUrl()
-      .newBuilder()
-      .addQueryParameter("key", googleCloudPlatformKey)
+    .newBuilder()
+    .addQueryParameter("key", googleCloudPlatformKey)
 
   private fun executeRequest(url: HttpUrl): GeocodeResponse? {
     val request = Request.Builder()
-        .url(url)
-        .build()
+      .url(url)
+      .build()
 
     return httpClient.newCall(request)
-        .execute()
-        .body
-        ?.string()
-        ?.let {
-          jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-              .readValue<GeocodeResponse>(it)
-        }
+      .execute()
+      .body
+      ?.string()
+      ?.let {
+        jacksonObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+          .readValue<GeocodeResponse>(it)
+      }
   }
 
   companion object {

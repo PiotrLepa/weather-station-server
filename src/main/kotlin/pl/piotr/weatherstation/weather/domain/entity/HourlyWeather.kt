@@ -26,8 +26,10 @@ data class HourlyWeather(
     windSpeedMax: Float,
     windSpeedAvg: Double,
     hourOfDay: Int,
-  ) : this(temperature.roundToDecimals(1).toFloat(), humidity.roundToDecimals(1).toFloat(),
-      pressure.roundToInt(), pm1.roundToInt(), pm25.roundToInt(), pm10.roundToInt(),
-      rainGauge.roundToDecimals(1).toFloat(), windSpeedMax.roundToDecimals(1).toFloat(),
-      windSpeedAvg.roundToDecimals(1).toFloat(), hourOfDay)
+  ) : this(
+    temperature.roundToDecimals(1).toFloat(), humidity.roundToDecimals(1).toFloat(),
+    pressure.roundToInt(), pm1.roundToInt(), pm25.roundToInt(), pm10.roundToInt(),
+    rainGauge.roundToDecimals(1).toFloat(), windSpeedMax.roundToDecimals(1).toFloat(),
+    windSpeedAvg.roundToDecimals(1).toFloat(), hourOfDay
+  )
 }

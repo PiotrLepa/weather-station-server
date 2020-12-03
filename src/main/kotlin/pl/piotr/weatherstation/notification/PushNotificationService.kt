@@ -29,22 +29,24 @@ class PushNotificationService @Autowired constructor(
     val title = messageSource.getMessageForLocale("notification.rain_detected.title", locale)
     val body = messageSource.getMessageForLocale("notification.rain_detected.body", locale)
     val message = Message.builder()
-        .setTopic(NotificationTopic.RAIN_DETECTED.withLocale(locale))
-        .setNotification(
-            Notification.builder()
-                .setTitle(title)
-                .setBody(body)
-                .build()
+      .setTopic(NotificationTopic.RAIN_DETECTED.withLocale(locale))
+      .setNotification(
+        Notification.builder()
+          .setTitle(title)
+          .setBody(body)
+          .build()
+      )
+      .putAllData(
+        mapOf(
+          NOTIFICATION_TYPE to NotificationType.RAIN_DETECTED.toString()
         )
-        .putAllData(mapOf(
-            NOTIFICATION_TYPE to NotificationType.RAIN_DETECTED.toString()
-        ))
-        .build()
+      )
+      .build()
     firebaseMessaging.send(message)
   }
 
   private fun getFlutterClickAction(): Pair<String, String> =
-      FLUTTER_CLICK_ACTION_KEY to FLUTTER_CLICK_ACTION_VALUE
+    FLUTTER_CLICK_ACTION_KEY to FLUTTER_CLICK_ACTION_VALUE
 
   companion object {
     private const val FLUTTER_CLICK_ACTION_KEY = "click_action"

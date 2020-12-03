@@ -10,10 +10,10 @@ import java.time.LocalDateTime
 class GeocodedAddressDtoToAddressEntityConverter : Converter<GeocodedAddressDto, Address> {
 
   override fun convert(from: GeocodedAddressDto) = Address(
-      latitude = from.latitude,
-      longitude = from.longitude,
-      city = from.city,
-      street = from.street,
-      LocalDateTime.now(),
+    latitude = from.latitude,
+    longitude = from.longitude,
+    city = from.city,
+    street = from.street,
+    LocalDateTime.now(),
   )
 }

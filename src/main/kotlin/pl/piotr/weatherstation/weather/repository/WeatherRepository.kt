@@ -14,7 +14,7 @@ interface WeatherRepository : JpaRepository<Weather, Long> {
   fun findFirstByOrderByCreationDateDesc(): Weather
 
   @Query(
-      """
+    """
         SELECT new pl.piotr.weatherstation.weather.domain.entity.HourlyWeather(
           AVG(w.temperature), AVG(w.humidity), AVG(w.pressure),
           AVG(w.pm1), AVG(w.pm25), AVG(w.pm10),

@@ -11,16 +11,16 @@ import java.time.LocalDateTime
 class SaveWeatherEntityConverter : ConverterWithArgs<SaveWeatherDto, Weather, Address?> {
 
   override fun convert(from: SaveWeatherDto, args: Address?) = Weather(
-      temperature = from.temperature,
-      humidity = from.humidity,
-      pressure = from.pressure,
-      pm1 = from.pm1,
-      pm25 = from.pm25,
-      pm10 = from.pm10,
-      windSpeedMax = from.windSpeedMax,
-      windSpeedAvg = from.windSpeedAvg,
-      rainGauge = from.rainGauge,
-      address = args,
-      creationDate = LocalDateTime.now()
+    temperature = from.temperature,
+    humidity = from.humidity,
+    pressure = from.pressure,
+    pm1 = from.pm1,
+    pm25 = from.pm25,
+    pm10 = from.pm10,
+    windSpeedMax = from.windSpeedMax,
+    windSpeedAvg = from.windSpeedAvg,
+    rainGauge = from.rainGauge,
+    address = args,
+    creationDate = LocalDateTime.now()
   )
 }

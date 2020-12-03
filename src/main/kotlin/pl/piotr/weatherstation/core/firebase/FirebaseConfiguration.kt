@@ -26,9 +26,9 @@ class FirebaseConfiguration @Autowired constructor(
     }
 
     val options = FirebaseOptions.builder()
-        .setCredentials(GoogleCredentials.fromStream(ClassPathResource(firebaseConfigPath).inputStream))
-        .setDatabaseUrl(firebaseDatabaseUrl)
-        .build()
+      .setCredentials(GoogleCredentials.fromStream(ClassPathResource(firebaseConfigPath).inputStream))
+      .setDatabaseUrl(firebaseDatabaseUrl)
+      .build()
     FirebaseApp.initializeApp(options)
   }
 
