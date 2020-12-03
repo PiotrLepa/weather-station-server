@@ -12,15 +12,15 @@ import java.time.LocalTime
 class HourlyWeatherDtoConverter : ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate> {
 
   override fun convert(from: HourlyWeather, args: LocalDate) = HourlyWeatherDto(
-      temperature = from.temperature,
-      humidity = from.humidity,
-      pressure = from.pressure,
-      pm1 = from.pm1,
-      pm25 = from.pm25,
-      pm10 = from.pm10,
-      windSpeedMax = from.windSpeedMax,
-      windSpeedAvg = from.windSpeedAvg,
-      rainGauge = from.rainGauge,
-      time = LocalDateTime.of(args, LocalTime.of(from.hourOfDay, 0))
+    temperature = from.temperature,
+    humidity = from.humidity,
+    pressure = from.pressure,
+    pm1 = from.pm1,
+    pm25 = from.pm25,
+    pm10 = from.pm10,
+    windSpeedMax = from.windSpeedMax,
+    windSpeedAvg = from.windSpeedAvg,
+    rainGauge = from.rainGauge,
+    dateTime = LocalDateTime.of(args, LocalTime.of(from.hourOfDay, 0))
   )
 }

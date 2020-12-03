@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
-import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
 import pl.piotr.weatherstation.weather.service.WeatherService
 import java.time.LocalDate
 
@@ -42,9 +42,10 @@ class WeatherController @Autowired constructor(
   @GetMapping("/hourly")
   @ApiOperation(value = "Get weather data for a specific day in hourly format")
   fun getHourlyWeatherForDay(
-    @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE
+    @RequestParam("day") @DateTimeFormat(
+      iso = DateTimeFormat.ISO.DATE
     ) day: LocalDate
-  ): ResponseEntity<List<HourlyWeather>> {
+  ): ResponseEntity<List<HourlyWeatherDto>> {
     val weather = weatherService.getHourlyWeatherForDay(day)
     return ResponseEntity(weather, HttpStatus.OK)
   }

@@ -12,5 +12,5 @@ data class HourlyWeatherDto(
   val rainGauge: Float,
   val windSpeedMax: Float,
   val windSpeedAvg: Float,
-  val time: LocalDateTime,
+  val dateTime: LocalDateTime,
 )

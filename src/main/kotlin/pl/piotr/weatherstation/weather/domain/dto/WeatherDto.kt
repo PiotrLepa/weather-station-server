@@ -13,5 +13,5 @@ data class WeatherDto(
   val windSpeedAvg: Float,
   val rainGauge: Float,
   val address: String?,
-  val date: LocalDateTime
+  val dateTime: LocalDateTime
 )
