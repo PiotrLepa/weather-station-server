@@ -2,15 +2,16 @@ package pl.piotr.weatherstation.weather.domain.converter
 
 import org.springframework.stereotype.Component
 import pl.piotr.weatherstation.core.converter.ConverterWithArgs
-import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
-import pl.piotr.weatherstation.weather.domain.entity.Address
-import pl.piotr.weatherstation.weather.domain.entity.Weather
+import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
+import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Component
-class SaveWeatherEntityConverter : ConverterWithArgs<SaveWeatherDto, Weather, Address?> {
+class HourlyWeatherDtoConverter : ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate> {
 
-  override fun convert(from: SaveWeatherDto, args: Address?) = Weather(
+  override fun convert(from: HourlyWeather, args: LocalDate) = HourlyWeatherDto(
     temperature = from.temperature,
     humidity = from.humidity,
     pressure = from.pressure,
@@ -20,7 +21,6 @@ class SaveWeatherEntityConverter : ConverterWithArgs<SaveWeatherDto, Weather, Ad
     windSpeedMax = from.windSpeedMax,
     windSpeedAvg = from.windSpeedAvg,
     rainGauge = from.rainGauge,
-    address = args,
-    creationDate = LocalDateTime.now()
+    dateTime = LocalDateTime.of(args, LocalTime.of(from.hourOfDay, 0))
   )
 }

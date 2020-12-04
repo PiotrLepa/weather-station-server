@@ -14,9 +14,9 @@ class SwaggerConfig {
 
   @Bean
   fun api(): Docket = Docket(DocumentationType.SWAGGER_2)
-      .useDefaultResponseMessages(false)
-      .select()
-      .apis(RequestHandlerSelectors.basePackage("pl.piotr.weatherstation"))
-      .paths(PathSelectors.ant("/api/**"))
-      .build()
+    .useDefaultResponseMessages(false)
+    .select()
+    .apis(RequestHandlerSelectors.basePackage("pl.piotr.weatherstation"))
+    .paths(PathSelectors.ant("/api/**"))
+    .build()
 }
