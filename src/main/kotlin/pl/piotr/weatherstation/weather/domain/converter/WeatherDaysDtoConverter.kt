@@ -9,6 +9,6 @@ import java.time.LocalDate
 class WeatherDaysDtoConverter : Converter<List<LocalDate>, WeatherDaysDto> {
 
   override fun convert(from: List<LocalDate>) = WeatherDaysDto(
-    dates = from
+    days = from
   )
 }
