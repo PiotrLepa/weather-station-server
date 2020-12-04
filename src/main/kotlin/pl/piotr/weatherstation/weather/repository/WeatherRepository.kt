@@ -23,7 +23,6 @@ interface WeatherRepository : JpaRepository<Weather, Long> {
         FROM Weather AS w
         WHERE w.creationDate >= :startDay AND w.creationDate < :endDay
         GROUP BY hourOfDay
-        ORDER BY hourOfDay ASC
       """,
   )
   fun getHourlyForDay(

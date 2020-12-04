@@ -10,7 +10,7 @@ interface WeatherService {
 
   fun getCurrentWeather(): WeatherDto
 
-  fun getHourlyWeatherForDay(day: LocalDate): List<HourlyWeatherDto>
+  fun getHourlyWeatherForDay(day: LocalDate, timeZone: String): List<HourlyWeatherDto>
 
   fun saveWeather(dto: SaveWeatherDto)
 

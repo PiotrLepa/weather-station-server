@@ -42,11 +42,10 @@ class WeatherController @Autowired constructor(
   @GetMapping("/hourly")
   @ApiOperation(value = "Get weather data for a specific day in hourly format")
   fun getHourlyWeatherForDay(
-    @RequestParam("day") @DateTimeFormat(
-      iso = DateTimeFormat.ISO.DATE
-    ) day: LocalDate
+    @RequestParam("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) day: LocalDate,
+    @RequestParam("timeZone", defaultValue = "UTC", required = false) timeZone: String,
   ): ResponseEntity<List<HourlyWeatherDto>> {
-    val weather = weatherService.getHourlyWeatherForDay(day)
+    val weather = weatherService.getHourlyWeatherForDay(day, timeZone)
     return ResponseEntity(weather, HttpStatus.OK)
   }
 
