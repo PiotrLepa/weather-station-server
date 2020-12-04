@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
+import pl.piotr.weatherstation.weather.domain.dto.WeatherDaysDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.service.WeatherService
 import java.time.LocalDate
@@ -37,6 +38,13 @@ class WeatherController @Autowired constructor(
   @ApiOperation(value = "Save collected weather data")
   fun saveWeather(@RequestBody weather: SaveWeatherDto) {
     weatherService.saveWeather(weather)
+  }
+
+  @GetMapping("/days")
+  @ApiOperation(value = "Get days for which weather data exists.")
+  fun getAvailableDays(): ResponseEntity<WeatherDaysDto> {
+    val days = weatherService.getAvailableDays()
+    return ResponseEntity(days, HttpStatus.OK)
   }
 
   @GetMapping("/hourly")

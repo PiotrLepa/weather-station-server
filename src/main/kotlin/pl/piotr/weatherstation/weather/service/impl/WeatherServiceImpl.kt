@@ -8,9 +8,11 @@ import pl.piotr.weatherstation.core.notnull.ifNotNull
 import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
 import pl.piotr.weatherstation.geocode.service.GeocodeService
 import pl.piotr.weatherstation.notification.PushNotificationService
+import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysDtoConverter
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
+import pl.piotr.weatherstation.weather.domain.dto.WeatherDaysDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Address
 import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
@@ -33,6 +35,7 @@ class WeatherServiceImpl @Autowired constructor(
   private val timeAdjuster: TimeAdjuster,
   private val weatherDtoConverter: Converter<Weather, WeatherDto>,
   private val hourlyWeatherDtoConverter: ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate>,
+  private val weatherDaysDtoConverter: WeatherDaysDtoConverter,
   private val saveWeatherEntityConverter: ConverterWithArgs<SaveWeatherDto, Weather, Address?>,
   private val saveCachedWeatherEntityConverter: ConverterWithArgs<SaveCachedWeatherDto, Weather, Address?>,
   private val geocodedAddressDtoToAddressEntityConverter: Converter<GeocodedAddressDto, Address>,
@@ -55,6 +58,9 @@ class WeatherServiceImpl @Autowired constructor(
     }
       .sortedBy { it.dateTime }
   }
+
+  override fun getAvailableDays(): WeatherDaysDto = weatherRepository.getAvailableDays()
+    .let(weatherDaysDtoConverter::convert)
 
   override fun saveWeather(dto: SaveWeatherDto) {
     val address = getAddressForNewWeather(dto.latitude, dto.longitude)
