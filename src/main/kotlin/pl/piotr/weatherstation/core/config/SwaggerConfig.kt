@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 class SwaggerConfig {
 
   @Bean
-  fun api(): Docket = Docket(DocumentationType.SWAGGER_2)
+  fun docket(): Docket = Docket(DocumentationType.SWAGGER_2)
     .useDefaultResponseMessages(false)
     .select()
     .apis(RequestHandlerSelectors.basePackage("pl.piotr.weatherstation"))
