@@ -63,20 +63,4 @@ class GeocodeServiceImplTest {
     assert(resultDto == null)
   }
 
-  @Test
-  fun `reverse geocode should return null if json is invalid`() {
-    // given
-    val entry = 52.229676 to 21.012229
-    val dto = getGeocodedAddressDto()
-
-    every { httpClientWrapper.execute(any(), any()) } returns Response("invalid json")
-    every { geocodedAddressDtoConverter.convert(any(), any()) } returns dto
-
-    // when
-    val resultDto = geocodeService.reverse(entry.first, entry.second)
-
-    // then
-    assert(resultDto == null)
-  }
-
 }
