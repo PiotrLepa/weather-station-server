@@ -16,16 +16,16 @@ interface WeatherRepository : JpaRepository<Weather, Long> {
 
   @Query(
     """
-        SELECT new pl.piotr.weatherstation.weather.domain.entity.HourlyWeather(
-          AVG(w.temperature), AVG(w.humidity), AVG(w.pressure),
-          AVG(w.pm1), AVG(w.pm25), AVG(w.pm10),
-          AVG(w.rainGauge), MAX(w.windSpeedMax), AVG(w.windSpeedAvg),
-          EXTRACT(HOUR FROM w.creationDate) AS hourOfDay
-          )
-        FROM Weather AS w
-        WHERE w.creationDate >= :startDay AND w.creationDate < :endDay
-        GROUP BY hourOfDay
-      """,
+      SELECT new pl.piotr.weatherstation.weather.domain.entity.HourlyWeather(
+        AVG(w.temperature), AVG(w.humidity), AVG(w.pressure),
+        AVG(w.pm1), AVG(w.pm25), AVG(w.pm10),
+        AVG(w.rainGauge), AVG(w.windSpeedMax), AVG(w.windSpeedAvg),
+        EXTRACT(HOUR FROM w.creationDate) AS hourOfDay
+        )
+      FROM Weather AS w
+      WHERE w.creationDate >= :startDay AND w.creationDate < :endDay
+      GROUP BY hourOfDay
+    """,
   )
   fun getHourlyForDay(
     @Param("startDay") startDay: LocalDateTime,
@@ -34,10 +34,10 @@ interface WeatherRepository : JpaRepository<Weather, Long> {
 
   @Query(
     """
-        SELECT DISTINCT CAST(w.creationDate AS LocalDate) 
-        FROM Weather AS w
-        ORDER BY 1
-      """,
+      SELECT DISTINCT CAST(w.creationDate AS LocalDate) 
+      FROM Weather AS w
+      ORDER BY 1
+    """,
   )
   fun getAvailableDays(): List<LocalDate>
 }

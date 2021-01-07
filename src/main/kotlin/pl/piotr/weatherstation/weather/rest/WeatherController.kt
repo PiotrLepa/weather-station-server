@@ -70,4 +70,5 @@ class WeatherController @Autowired constructor(
   fun rainDetected() {
     weatherService.rainDetected()
   }
+
 }
