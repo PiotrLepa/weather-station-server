@@ -5,10 +5,12 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import pl.piotr.weatherstation.core.http.converter.ResponseConverter
 
 @Component
 class HttpClientWrapper @Autowired constructor(
-  private val httpClient: OkHttpClient
+  private val httpClient: OkHttpClient,
+  private val responseConverter: ResponseConverter,
 ) {
 
   fun execute(
@@ -30,9 +32,7 @@ class HttpClientWrapper @Autowired constructor(
 
     return httpClient.newCall(request)
       .execute()
-      .body
-      ?.string()
-      ?.let(::Response)
+      .let(responseConverter::convert)
   }
 
 }

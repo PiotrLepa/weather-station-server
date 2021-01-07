@@ -1,8 +1,10 @@
 package pl.piotr.weatherstation.geocode.service.impl
 
 import org.springframework.stereotype.Service
+import pl.piotr.weatherstation.core.converter.Converter
 import pl.piotr.weatherstation.core.converter.ConverterWithArgs
 import pl.piotr.weatherstation.core.http.HttpClientWrapper
+import pl.piotr.weatherstation.core.http.Response
 import pl.piotr.weatherstation.geocode.domain.converter.GeocodedAddressDtoConverterArgs
 import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
 import pl.piotr.weatherstation.geocode.domain.entity.GeocodeResponse
@@ -14,6 +16,7 @@ class GeocodeServiceImpl(
   private val httpClient: HttpClientWrapper,
   private val googleCloudKeyProvider: GoogleCloudKeyProvider,
   private val geocodedAddressDtoConverter: ConverterWithArgs<GeocodeResponse, GeocodedAddressDto, GeocodedAddressDtoConverterArgs>,
+  private val geocodeResponseConverter: Converter<Response, GeocodeResponse?>,
 ) : GeocodeService {
 
   override fun reverse(latitude: Double, longitude: Double): GeocodedAddressDto? = httpClient.execute(
@@ -23,7 +26,7 @@ class GeocodeServiceImpl(
       "latlng" to "$latitude, $longitude",
     )
   )
-    ?.toClass<GeocodeResponse>()
+    ?.let(geocodeResponseConverter::convert)
     ?.let { geocodedAddressDtoConverter.convert(it, GeocodedAddressDtoConverterArgs(latitude, longitude)) }
 
   companion object {
