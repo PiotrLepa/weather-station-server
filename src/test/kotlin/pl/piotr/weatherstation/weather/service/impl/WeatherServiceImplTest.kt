@@ -13,7 +13,7 @@ import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
 import pl.piotr.weatherstation.geocode.service.GeocodeService
 import pl.piotr.weatherstation.geocode.service.impl.getAddress
 import pl.piotr.weatherstation.geocode.service.impl.getGeocodedAddressDto
-import pl.piotr.weatherstation.notification.PushNotificationService
+import pl.piotr.weatherstation.notification.service.PushNotificationService
 import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysDtoConverter
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
