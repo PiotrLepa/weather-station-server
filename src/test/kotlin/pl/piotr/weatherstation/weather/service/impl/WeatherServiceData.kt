@@ -1,6 +1,5 @@
 package pl.piotr.weatherstation.weather.service.impl
 
-import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
@@ -118,21 +117,6 @@ fun getSaveCachedWeathersDto(
 ): List<SaveCachedWeatherDto> = listOf(
   SaveCachedWeatherDto(getSaveWeatherDto(latitude, longitude), LocalDateTime.of(2020, 7, 22, 10, 35, 45, 0)),
   SaveCachedWeatherDto(getSaveWeatherDto(latitude, longitude), LocalDateTime.of(2020, 7, 22, 10, 35, 50, 0)),
-)
-
-fun getAddress(): Address = Address(
-  latitude = 52.229676,
-  longitude = 21.012229,
-  city = "Warsaw",
-  street = "Śródmieście",
-  creationDate = LocalDateTime.of(2020, 7, 12, 13, 5, 0)
-)
-
-fun getGeocodedAddressDto(): GeocodedAddressDto = GeocodedAddressDto(
-  latitude = 52.229676,
-  longitude = 21.012229,
-  city = "Warsaw",
-  street = "Śródmieście",
 )
 
 fun getAvailableDays(): List<LocalDate> = listOf(

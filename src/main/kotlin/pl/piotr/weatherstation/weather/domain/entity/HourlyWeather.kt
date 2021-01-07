@@ -23,7 +23,7 @@ data class HourlyWeather(
     pm25: Double,
     pm10: Double,
     rainGauge: Double,
-    windSpeedMax: Float,
+    windSpeedMax: Double,
     windSpeedAvg: Double,
     hourOfDay: Int,
   ) : this(
