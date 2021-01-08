@@ -3,12 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.3.1.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	kotlin("jvm") version "1.3.72"
-	kotlin("plugin.spring") version "1.3.72"
+	val kotlinVersion = "1.4.10"
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
+	kotlin("plugin.jpa") version kotlinVersion
 }
 
 group = "pl.piotr"
-version = "0.0.1-SNAPSHOT"
+version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
@@ -18,12 +20,26 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+
+	val springBootStarter = "2.3.1.BUILD-SNAPSHOT"
+	implementation("org.springframework.boot:spring-boot-starter:$springBootStarter")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootStarter")
+	implementation("org.springframework.boot:spring-boot-starter-web:$springBootStarter")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootStarter") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
+	implementation("org.postgresql:postgresql:42.2.18")
+	implementation("com.google.firebase:firebase-admin:7.0.1")
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
+	implementation("com.squareup.okhttp3:okhttp:4.10.0-RC1")
+
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
+	testImplementation("io.mockk:mockk:1.10.4")
 }
 
 tasks.withType<Test> {
