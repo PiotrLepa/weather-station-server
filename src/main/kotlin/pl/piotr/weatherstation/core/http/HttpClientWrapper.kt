@@ -32,7 +32,7 @@ class HttpClientWrapper @Autowired constructor(
 
     return httpClient.newCall(request)
       .execute()
-      .let(responseConverter::convert)
+      .let(responseConverter::toResponse)
   }
 
 }

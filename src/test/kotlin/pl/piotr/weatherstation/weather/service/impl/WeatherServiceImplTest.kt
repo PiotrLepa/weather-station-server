@@ -7,25 +7,18 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import pl.piotr.weatherstation.core.converter.Converter
-import pl.piotr.weatherstation.core.converter.ConverterWithArgs
-import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
+import pl.piotr.weatherstation.geocode.domain.converter.GeocodeAddressConverter
 import pl.piotr.weatherstation.geocode.service.GeocodeService
 import pl.piotr.weatherstation.geocode.service.impl.getAddress
 import pl.piotr.weatherstation.geocode.service.impl.getGeocodedAddressDto
 import pl.piotr.weatherstation.notification.service.PushNotificationService
-import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysDtoConverter
-import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
+import pl.piotr.weatherstation.weather.domain.converter.HourlyWeatherConverter
+import pl.piotr.weatherstation.weather.domain.converter.WeatherConverter
+import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysConverter
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
-import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
-import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
-import pl.piotr.weatherstation.weather.domain.entity.Address
-import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
-import pl.piotr.weatherstation.weather.domain.entity.Weather
 import pl.piotr.weatherstation.weather.repository.AddressRepository
 import pl.piotr.weatherstation.weather.repository.WeatherRepository
 import pl.piotr.weatherstation.weather.util.TimeAdjuster
-import java.time.LocalDate
 
 @ExtendWith(MockKExtension::class)
 class WeatherServiceImplTest {
@@ -35,12 +28,10 @@ class WeatherServiceImplTest {
   private val pushNotificationService: PushNotificationService = mockk()
   private val geocodeService: GeocodeService = mockk()
   private val timeAdjuster: TimeAdjuster = mockk()
-  private val weatherDtoConverter: Converter<Weather, WeatherDto> = mockk()
-  private val hourlyWeatherDtoConverter: ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate> = mockk()
-  private val weatherDaysDtoConverter: WeatherDaysDtoConverter = mockk()
-  private val saveWeatherEntityConverter: ConverterWithArgs<SaveWeatherDto, Weather, Address?> = mockk()
-  private val saveCachedWeatherEntityConverter: ConverterWithArgs<SaveCachedWeatherDto, Weather, Address?> = mockk()
-  private val geocodedAddressDtoToAddressEntityConverter: Converter<GeocodedAddressDto, Address> = mockk()
+  private val weatherConverter: WeatherConverter = mockk()
+  private val hourlyWeatherConverter: HourlyWeatherConverter = mockk()
+  private val weatherDaysConverter: WeatherDaysConverter = mockk()
+  private val geocodeAddressConverter: GeocodeAddressConverter = mockk()
 
   @InjectMockKs
   lateinit var weatherService: WeatherServiceImpl
@@ -52,7 +43,7 @@ class WeatherServiceImplTest {
     val dto = getWeatherDto()
 
     every { weatherRepository.findFirstByOrderByCreationDateDesc() } returns entity
-    every { weatherDtoConverter.convert(entity) } returns dto
+    every { weatherConverter.toDto(entity) } returns dto
 
     // when
     val resultDto = weatherService.getCurrentWeather()
@@ -60,7 +51,7 @@ class WeatherServiceImplTest {
     // then
     assert(resultDto == dto)
     verify(exactly = 1) { weatherRepository.findFirstByOrderByCreationDateDesc() }
-    verify(exactly = 1) { weatherDtoConverter.convert(entity) }
+    verify(exactly = 1) { weatherConverter.toDto(entity) }
   }
 
   @Test
@@ -72,7 +63,7 @@ class WeatherServiceImplTest {
     val zone = "UTC"
 
     every { weatherRepository.getHourlyForDay(any(), any()) } returns entity
-    every { hourlyWeatherDtoConverter.convert(any(), any()) } returnsMany dto
+    every { hourlyWeatherConverter.toDto(any(), any()) } returnsMany dto
     every { timeAdjuster.adjustHour(any(), any()) } returnsMany entity.map { it.hourOfDay }
     every { timeAdjuster.getHourOffSet(any()) } returnsMany entity.map { it.hourOfDay }
 
@@ -82,7 +73,7 @@ class WeatherServiceImplTest {
     // then
     assert(resultDto == dto)
     verify(exactly = 1) { weatherRepository.getHourlyForDay(any(), any()) }
-    verify(exactly = entity.size) { hourlyWeatherDtoConverter.convert(any(), any()) }
+    verify(exactly = entity.size) { hourlyWeatherConverter.toDto(any(), any()) }
   }
 
   @Test
@@ -92,7 +83,7 @@ class WeatherServiceImplTest {
     val dto = getWeatherDaysDto()
 
     every { weatherRepository.getAvailableDays() } returns entity
-    every { weatherDaysDtoConverter.convert(entity) } returns dto
+    every { weatherDaysConverter.toDto(entity) } returns dto
 
     // when
     val resultDto = weatherService.getAvailableDays()
@@ -100,7 +91,7 @@ class WeatherServiceImplTest {
     // then
     assert(resultDto == dto)
     verify(exactly = 1) { weatherRepository.getAvailableDays() }
-    verify(exactly = 1) { weatherDaysDtoConverter.convert(entity) }
+    verify(exactly = 1) { weatherDaysConverter.toDto(entity) }
   }
 
   @Test
@@ -112,14 +103,14 @@ class WeatherServiceImplTest {
 
     every { weatherRepository.save(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns address
-    every { saveWeatherEntityConverter.convert(dto, address) } returns entity
+    every { weatherConverter.toEntity(dto, address) } returns entity
 
     // when
     weatherService.saveWeather(dto)
 
     // then
     verify(exactly = 1) { weatherRepository.save(entity) }
-    verify(exactly = 1) { saveWeatherEntityConverter.convert(dto, address) }
+    verify(exactly = 1) { weatherConverter.toEntity(dto, address) }
   }
 
   @Test
@@ -131,7 +122,7 @@ class WeatherServiceImplTest {
 
     every { weatherRepository.save(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns address
-    every { saveWeatherEntityConverter.convert(dto, address) } returns entity
+    every { weatherConverter.toEntity(dto, address) } returns entity
 
     // when
     weatherService.saveWeather(dto)
@@ -151,8 +142,8 @@ class WeatherServiceImplTest {
     every { geocodeService.reverse(address.latitude, address.longitude) } returns geocodedAddressDto
     every { weatherRepository.save(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns null
-    every { saveWeatherEntityConverter.convert(dto, address) } returns entity
-    every { geocodedAddressDtoToAddressEntityConverter.convert(geocodedAddressDto) } returns address
+    every { weatherConverter.toEntity(dto, address) } returns entity
+    every { geocodeAddressConverter.toEntity(geocodedAddressDto) } returns address
 
     // when
     weatherService.saveWeather(dto)
@@ -160,7 +151,7 @@ class WeatherServiceImplTest {
     // then
     verify(exactly = 1) { addressRepository.getClosest(address.latitude, address.longitude) }
     verify(exactly = 1) { geocodeService.reverse(address.latitude, address.longitude) }
-    verify(exactly = 1) { geocodedAddressDtoToAddressEntityConverter.convert(geocodedAddressDto) }
+    verify(exactly = 1) { geocodeAddressConverter.toEntity(geocodedAddressDto) }
   }
 
   @Test
@@ -170,7 +161,7 @@ class WeatherServiceImplTest {
     val entity = getWeather()
 
     every { weatherRepository.save(entity) } returns entity
-    every { saveWeatherEntityConverter.convert(dto, null) } returns entity
+    every { weatherConverter.toEntity(dto, null) } returns entity
 
     // when
     weatherService.saveWeather(dto)
@@ -178,7 +169,7 @@ class WeatherServiceImplTest {
     // then
     verify(exactly = 0) { addressRepository.getClosest(any(), any()) }
     verify(exactly = 0) { geocodeService.reverse(any(), any()) }
-    verify(exactly = 0) { geocodedAddressDtoToAddressEntityConverter.convert(any()) }
+    verify(exactly = 0) { geocodeAddressConverter.toEntity(any()) }
   }
 
   @Test
@@ -190,14 +181,14 @@ class WeatherServiceImplTest {
 
     every { weatherRepository.saveAll(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns address
-    every { saveCachedWeatherEntityConverter.convert(any(), address) } returnsMany entity
+    every { weatherConverter.toEntity(any<SaveCachedWeatherDto>(), address) } returnsMany entity
 
     // when
     weatherService.saveCachedWeathers(dto)
 
     // then
     verify(exactly = 1) { weatherRepository.saveAll(entity) }
-    verify(exactly = dto.size) { saveCachedWeatherEntityConverter.convert(any(), address) }
+    verify(exactly = dto.size) { weatherConverter.toEntity(any<SaveCachedWeatherDto>(), address) }
   }
 
   @Test
@@ -209,7 +200,7 @@ class WeatherServiceImplTest {
 
     every { weatherRepository.saveAll(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns address
-    every { saveCachedWeatherEntityConverter.convert(any(), address) } returnsMany entity
+    every { weatherConverter.toEntity(any<SaveCachedWeatherDto>(), address) } returnsMany entity
 
     // when
     weatherService.saveCachedWeathers(dto)
@@ -229,8 +220,8 @@ class WeatherServiceImplTest {
     every { geocodeService.reverse(address.latitude, address.longitude) } returns geocodedAddressDto
     every { weatherRepository.saveAll(entity) } returns entity
     every { addressRepository.getClosest(address.latitude, address.longitude) } returns null
-    every { saveCachedWeatherEntityConverter.convert(any(), address) } returnsMany entity
-    every { geocodedAddressDtoToAddressEntityConverter.convert(geocodedAddressDto) } returns address
+    every { weatherConverter.toEntity(any<SaveCachedWeatherDto>(), address) } returnsMany entity
+    every { geocodeAddressConverter.toEntity(geocodedAddressDto) } returns address
 
     // when
     weatherService.saveCachedWeathers(dto)
@@ -238,7 +229,7 @@ class WeatherServiceImplTest {
     // then
     verify(exactly = dto.size) { addressRepository.getClosest(address.latitude, address.longitude) }
     verify(exactly = dto.size) { geocodeService.reverse(address.latitude, address.longitude) }
-    verify(exactly = dto.size) { geocodedAddressDtoToAddressEntityConverter.convert(geocodedAddressDto) }
+    verify(exactly = dto.size) { geocodeAddressConverter.toEntity(geocodedAddressDto) }
   }
 
   @Test
@@ -248,7 +239,7 @@ class WeatherServiceImplTest {
     val entity = listOf(getWeather(), getWeather())
 
     every { weatherRepository.saveAll(entity) } returns entity
-    every { saveCachedWeatherEntityConverter.convert(any(), null) } returnsMany entity
+    every { weatherConverter.toEntity(any<SaveCachedWeatherDto>(), null) } returnsMany entity
 
     // when
     weatherService.saveCachedWeathers(dto)
@@ -256,7 +247,7 @@ class WeatherServiceImplTest {
     // then
     verify(exactly = 0) { addressRepository.getClosest(any(), any()) }
     verify(exactly = 0) { geocodeService.reverse(any(), any()) }
-    verify(exactly = 0) { geocodedAddressDtoToAddressEntityConverter.convert(any()) }
+    verify(exactly = 0) { geocodeAddressConverter.toEntity(any()) }
   }
 
   @Test
