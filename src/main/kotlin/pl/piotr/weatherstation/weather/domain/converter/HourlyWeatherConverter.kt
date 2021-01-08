@@ -1,7 +1,6 @@
 package pl.piotr.weatherstation.weather.domain.converter
 
 import org.springframework.stereotype.Component
-import pl.piotr.weatherstation.core.converter.ConverterWithArgs
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
 import java.time.LocalDate
@@ -9,9 +8,9 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Component
-class HourlyWeatherDtoConverter : ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate> {
+class HourlyWeatherConverter {
 
-  override fun convert(from: HourlyWeather, args: LocalDate) = HourlyWeatherDto(
+  fun toDto(from: HourlyWeather, date: LocalDate) = HourlyWeatherDto(
     temperature = from.temperature,
     humidity = from.humidity,
     pressure = from.pressure,
@@ -21,6 +20,7 @@ class HourlyWeatherDtoConverter : ConverterWithArgs<HourlyWeather, HourlyWeather
     windSpeedMax = from.windSpeedMax,
     windSpeedAvg = from.windSpeedAvg,
     rainGauge = from.rainGauge,
-    dateTime = LocalDateTime.of(args, LocalTime.of(from.hourOfDay, 0))
+    dateTime = LocalDateTime.of(date, LocalTime.of(from.hourOfDay, 0))
   )
+
 }

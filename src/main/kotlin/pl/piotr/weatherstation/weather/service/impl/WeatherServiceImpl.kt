@@ -2,21 +2,19 @@ package pl.piotr.weatherstation.weather.service.impl
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import pl.piotr.weatherstation.core.converter.Converter
-import pl.piotr.weatherstation.core.converter.ConverterWithArgs
 import pl.piotr.weatherstation.core.notnull.ifNotNull
-import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
+import pl.piotr.weatherstation.geocode.domain.converter.GeocodeAddressConverter
 import pl.piotr.weatherstation.geocode.service.GeocodeService
 import pl.piotr.weatherstation.notification.service.PushNotificationService
-import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysDtoConverter
+import pl.piotr.weatherstation.weather.domain.converter.HourlyWeatherConverter
+import pl.piotr.weatherstation.weather.domain.converter.WeatherConverter
+import pl.piotr.weatherstation.weather.domain.converter.WeatherDaysConverter
 import pl.piotr.weatherstation.weather.domain.dto.HourlyWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveCachedWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.SaveWeatherDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDaysDto
 import pl.piotr.weatherstation.weather.domain.dto.WeatherDto
 import pl.piotr.weatherstation.weather.domain.entity.Address
-import pl.piotr.weatherstation.weather.domain.entity.HourlyWeather
-import pl.piotr.weatherstation.weather.domain.entity.Weather
 import pl.piotr.weatherstation.weather.repository.AddressRepository
 import pl.piotr.weatherstation.weather.repository.WeatherRepository
 import pl.piotr.weatherstation.weather.service.WeatherService
@@ -33,17 +31,15 @@ class WeatherServiceImpl @Autowired constructor(
   private val pushNotificationService: PushNotificationService,
   private val geocodeService: GeocodeService,
   private val timeAdjuster: TimeAdjuster,
-  private val weatherDtoConverter: Converter<Weather, WeatherDto>,
-  private val hourlyWeatherDtoConverter: ConverterWithArgs<HourlyWeather, HourlyWeatherDto, LocalDate>,
-  private val weatherDaysDtoConverter: WeatherDaysDtoConverter,
-  private val saveWeatherEntityConverter: ConverterWithArgs<SaveWeatherDto, Weather, Address?>,
-  private val saveCachedWeatherEntityConverter: ConverterWithArgs<SaveCachedWeatherDto, Weather, Address?>,
-  private val geocodedAddressDtoToAddressEntityConverter: Converter<GeocodedAddressDto, Address>,
+  private val weatherConverter: WeatherConverter,
+  private val hourlyWeatherConverter: HourlyWeatherConverter,
+  private val weatherDaysConverter: WeatherDaysConverter,
+  private val geocodeAddressConverter: GeocodeAddressConverter,
 ) : WeatherService {
 
   override fun getCurrentWeather(): WeatherDto =
     weatherRepository.findFirstByOrderByCreationDateDesc()
-      .let(weatherDtoConverter::convert)
+      .let(weatherConverter::toDto)
 
   override fun getHourlyWeatherForDay(day: LocalDate, timeZone: String): List<HourlyWeatherDto> {
     val zone = TimeZone.getTimeZone(timeZone)
@@ -54,24 +50,24 @@ class WeatherServiceImpl @Autowired constructor(
       startDate.plusDays(1),
     ).map {
       val hour = timeAdjuster.adjustHour(it.hourOfDay, zone)
-      hourlyWeatherDtoConverter.convert(it.copy(hourOfDay = hour), day)
+      hourlyWeatherConverter.toDto(it.copy(hourOfDay = hour), day)
     }
       .sortedBy { it.dateTime }
   }
 
   override fun getAvailableDays(): WeatherDaysDto = weatherRepository.getAvailableDays()
-    .let(weatherDaysDtoConverter::convert)
+    .let(weatherDaysConverter::toDto)
 
   override fun saveWeather(dto: SaveWeatherDto) {
     val address = getAddressForNewWeather(dto.latitude, dto.longitude)
-    val weather = saveWeatherEntityConverter.convert(dto, address)
+    val weather = weatherConverter.toEntity(dto, address)
     weatherRepository.save(weather)
   }
 
   override fun saveCachedWeathers(weathers: List<SaveCachedWeatherDto>) {
     val weathersToSave = weathers.map { dto ->
       val address = getAddressForNewWeather(dto.weather.latitude, dto.weather.longitude)
-      saveCachedWeatherEntityConverter.convert(dto, address)
+      weatherConverter.toEntity(dto, address)
     }
     weatherRepository.saveAll(weathersToSave)
   }
@@ -83,6 +79,6 @@ class WeatherServiceImpl @Autowired constructor(
   private fun getAddressForNewWeather(latitude: Double?, longitude: Double?): Address? =
     ifNotNull(latitude, longitude) { lat, long ->
       addressRepository.getClosest(lat, long) ?: geocodeService.reverse(lat, long)
-        ?.let(geocodedAddressDtoToAddressEntityConverter::convert)
+        ?.let(geocodeAddressConverter::toEntity)
     }
 }

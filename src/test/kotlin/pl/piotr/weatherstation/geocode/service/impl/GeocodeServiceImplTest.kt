@@ -6,12 +6,9 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import pl.piotr.weatherstation.core.converter.Converter
-import pl.piotr.weatherstation.core.converter.ConverterWithArgs
 import pl.piotr.weatherstation.core.http.HttpClientWrapper
 import pl.piotr.weatherstation.core.http.Response
-import pl.piotr.weatherstation.geocode.domain.converter.GeocodedAddressDtoConverterArgs
-import pl.piotr.weatherstation.geocode.domain.dto.GeocodedAddressDto
+import pl.piotr.weatherstation.geocode.domain.converter.GeocodeAddressConverter
 import pl.piotr.weatherstation.geocode.domain.entity.GeocodeResponse
 import pl.piotr.weatherstation.util.GoogleCloudKeyProvider
 
@@ -22,8 +19,7 @@ class GeocodeServiceImplTest {
     every { key } returns "key"
   }
   private val httpClientWrapper: HttpClientWrapper = mockk()
-  private val geocodedAddressDtoConverter: ConverterWithArgs<GeocodeResponse, GeocodedAddressDto, GeocodedAddressDtoConverterArgs> = mockk()
-  private val geocodeResponseConverter: Converter<Response, GeocodeResponse?> = mockk()
+  private val geocodeAddressConverter: GeocodeAddressConverter = mockk()
 
   @InjectMockKs
   lateinit var geocodeService: GeocodeServiceImpl
@@ -31,17 +27,17 @@ class GeocodeServiceImplTest {
   @Test
   fun `reverse geocode should return dto with correct data if http request returns success`() {
     // given
-    val entry = 52.229676 to 21.012229
+    val (lat, long) = 52.229676 to 21.012229
     val dto = getGeocodedAddressDto()
-    val httpResponse = Response(getReverseGeocodeJson())
+    val httpResponse = Response("json")
     val geocodeResponse = GeocodeResponse(results = listOf())
 
     every { httpClientWrapper.execute(any(), any()) } returns httpResponse
-    every { geocodeResponseConverter.convert(httpResponse) } returns geocodeResponse
-    every { geocodedAddressDtoConverter.convert(any(), any()) } returns dto
+    every { geocodeAddressConverter.toGeocodeResponse(httpResponse) } returns geocodeResponse
+    every { geocodeAddressConverter.toDto(any(), lat, long) } returns dto
 
     // when
-    val resultDto = geocodeService.reverse(entry.first, entry.second)
+    val resultDto = geocodeService.reverse(lat, long)
 
     // then
     assert(resultDto == dto)
@@ -50,14 +46,14 @@ class GeocodeServiceImplTest {
   @Test
   fun `reverse geocode should return null if http request fails`() {
     // given
-    val entry = 52.229676 to 21.012229
+    val (lat, long) = 52.229676 to 21.012229
     val dto = getGeocodedAddressDto()
 
     every { httpClientWrapper.execute(any(), any()) } returns null
-    every { geocodedAddressDtoConverter.convert(any(), any()) } returns dto
+    every { geocodeAddressConverter.toDto(any(), lat, long) } returns dto
 
     // when
-    val resultDto = geocodeService.reverse(entry.first, entry.second)
+    val resultDto = geocodeService.reverse(lat, long)
 
     // then
     assert(resultDto == null)
