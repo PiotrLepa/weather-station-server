@@ -1,4 +1,4 @@
-package pl.piotr.weatherstation.notification
+package pl.piotr.weatherstation.notification.service
 
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
@@ -14,14 +14,14 @@ import pl.piotr.weatherstation.notification.enum.NotificationType
 import java.util.Locale
 
 @Service
-class PushNotificationService @Autowired constructor(
+class PushNotificationServiceImpl @Autowired constructor(
   private val firebaseMessaging: FirebaseMessaging,
   private val messageSource: MessageSource,
   private val localeProvider: LocaleProvider,
-) {
+) : PushNotificationService {
 
   @Async
-  fun sendRainDetected() {
+  override fun sendRainDetected() {
     localeProvider.supportedLocales.forEach(::sendRainDetectedForLanguage)
   }
 
