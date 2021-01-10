@@ -25,7 +25,7 @@ class GeocodeServiceImplTest {
   lateinit var geocodeService: GeocodeServiceImpl
 
   @Test
-  fun `reverse geocode should return dto with correct data if http request returns success`() {
+  fun `reverse geocoding should return dto if http request is successful`() {
     // given
     val (lat, long) = 52.229676 to 21.012229
     val dto = getGeocodedAddressDto()
@@ -44,7 +44,7 @@ class GeocodeServiceImplTest {
   }
 
   @Test
-  fun `reverse geocode should return null if http request fails`() {
+  fun `reverse geocoding should return null if http request fails`() {
     // given
     val (lat, long) = 52.229676 to 21.012229
     val dto = getGeocodedAddressDto()
