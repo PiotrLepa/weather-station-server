@@ -95,7 +95,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save weather should convert correct dto to entity and call repository`() {
+  fun `should convert weather data and save`() {
     // given
     val address = getAddress()
     val dto = getSaveWeatherDto(latitude = address.latitude, longitude = address.longitude)
@@ -114,7 +114,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save weather with coordinates should get address from repository if nearby address is saved`() {
+  fun `should get address from repository if nearby address is saved`() {
     // given
     val address = getAddress()
     val dto = getSaveWeatherDto(latitude = address.latitude, longitude = address.longitude)
@@ -132,7 +132,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save weather with coordinates should get geocode address if there is no nearby address`() {
+  fun `should geocode address if weather to save has coordinates and there is no nearby address`() {
     // given
     val address = getAddress()
     val geocodedAddressDto = getGeocodedAddressDto()
@@ -155,7 +155,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save weather without coordinates should not call address repository and geocode service`() {
+  fun `should not call address repository and geocode service if weather to save has no coordinates`() {
     // given
     val dto = getSaveWeatherDto()
     val entity = getWeather()
@@ -173,7 +173,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save cached weathers should convert correct dto to entity and call repository`() {
+  fun `should convert all of cached weathers data and save`() {
     // given
     val address = getAddress()
     val dto = getSaveCachedWeathersDto(latitude = address.latitude, longitude = address.longitude)
@@ -192,7 +192,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save cached weathers with coordinates should get address from repository if nearby address is saved`() {
+  fun `should get address from repository if cached weathers data to save have coordinates and nearby address is saved`() {
     // given
     val address = getAddress()
     val dto = getSaveCachedWeathersDto(latitude = address.latitude, longitude = address.longitude)
@@ -210,7 +210,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save cached weathers with coordinates should get geocode address if there is no nearby address`() {
+  fun `should geocode addresses if cached weathers data to save have coordinates and there is no nearby address`() {
     // given
     val address = getAddress()
     val geocodedAddressDto = getGeocodedAddressDto()
@@ -233,7 +233,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `save cached weathers without coordinates should not call address repository and geocode service`() {
+  fun `should not call address repository and geocode service if cached weathers data to save have no coordinates`() {
     // given
     val dto = getSaveCachedWeathersDto()
     val entity = listOf(getWeather(), getWeather())
@@ -251,7 +251,7 @@ class WeatherServiceImplTest {
   }
 
   @Test
-  fun `send push notification on rain detected`() {
+  fun `should send push notification on rain detected`() {
     // given
     every { pushNotificationService.sendRainDetected() } returns Unit
 
