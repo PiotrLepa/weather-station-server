@@ -1,4 +1,4 @@
-package pl.piotr.weatherstation.notification.service
+package pl.piotr.weatherstation.notification.service.impl
 
 import com.google.firebase.messaging.FirebaseMessaging
 import io.mockk.every
