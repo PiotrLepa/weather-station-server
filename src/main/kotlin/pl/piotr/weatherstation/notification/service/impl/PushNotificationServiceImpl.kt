@@ -1,4 +1,4 @@
-package pl.piotr.weatherstation.notification.service
+package pl.piotr.weatherstation.notification.service.impl
 
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
@@ -11,6 +11,7 @@ import pl.piotr.weatherstation.core.extensions.getMessageForLocale
 import pl.piotr.weatherstation.core.language.LocaleProvider
 import pl.piotr.weatherstation.notification.enum.NotificationTopic
 import pl.piotr.weatherstation.notification.enum.NotificationType
+import pl.piotr.weatherstation.notification.service.PushNotificationService
 import java.util.Locale
 
 @Service
