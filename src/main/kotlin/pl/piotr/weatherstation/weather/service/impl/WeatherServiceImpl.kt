@@ -44,7 +44,7 @@ class WeatherServiceImpl @Autowired constructor(
   override fun getHourlyWeatherForDay(day: LocalDate, timeZone: String): List<HourlyWeatherDto> {
     val zone = TimeZone.getTimeZone(timeZone)
     val startDate = LocalDateTime.of(day, LocalTime.MIDNIGHT)
-      .minusHours(timeAdjuster.getHourOffSet(zone).toLong())
+      .minusHours(timeAdjuster.getHoursOffSet(zone).toLong())
     return weatherRepository.getHourlyForDay(
       startDate,
       startDate.plusDays(1),
