@@ -65,7 +65,7 @@ class WeatherServiceImplTest {
     every { weatherRepository.getHourlyForDay(any(), any()) } returns entity
     every { hourlyWeatherConverter.toDto(any(), any()) } returnsMany dto
     every { timeAdjuster.adjustHour(any(), any()) } returnsMany entity.map { it.hourOfDay }
-    every { timeAdjuster.getHourOffSet(any()) } returnsMany entity.map { it.hourOfDay }
+    every { timeAdjuster.getHoursOffSet(any()) } returnsMany entity.map { it.hourOfDay }
 
     // when
     val resultDto = weatherService.getHourlyWeatherForDay(day, zone)
