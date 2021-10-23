@@ -1,10 +1,7 @@
-### Opis projektu
-System składa się z 3 elementów: mikrokontrolera zbierającego dane
-meteorologiczne, serwera, oraz aplikacji mobilnej. Użytkownik może zobaczyć
-aktualne dane pogodowe oraz wykres dla wybranego dnia. Dodatkową funkcja
-aplikacji jest konfiguracja mikrokontrolera za pomocą bluetooth low energy.
+### Project description
+The project consists of 3 components: [microcontroller](https://github.com/PiotrLepa/weather-station-arduino), [server](https://github.com/PiotrLepa/weather-station-server) and [mobile application](https://github.com/PiotrLepa/weather-station-client). The user can see the current weather data and graph for the selected day. An additional feature of the application is to configure the microcontroller with the mobile application using bluetooth low energy.
 
-### Technologie
-- Backend - Framework Spring, język Kotlin
-- Aplikacja mobilna - Framework Flutter, język Dart
-- Mikrokontroler - ESP32, język Arduino
+### Used technologies
+- Mobile application - Flutter
+- Backend - Spring, Kotlin
+- Microcontroller - ESP32, Arduino
