@@ -5,3 +5,5 @@ The project consists of 3 components: [microcontroller](https://github.com/Piotr
 - Mobile application - Flutter
 - Backend - Spring, Kotlin
 - Microcontroller - ESP32, Arduino
+
+![image_1](https://i.imgur.com/UmWJT8t.png)
