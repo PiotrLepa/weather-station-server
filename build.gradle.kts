@@ -7,6 +7,7 @@ plugins {
 	kotlin("jvm") version kotlinVersion
 	kotlin("plugin.spring") version kotlinVersion
 	kotlin("plugin.jpa") version kotlinVersion
+//	id("docker")
 }
 
 group = "pl.piotr"
@@ -31,6 +32,8 @@ dependencies {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
 
+//	implementation("se.transmode.gradle:gradle-docker:1.2")
+
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.3")
 	implementation("org.postgresql:postgresql:42.2.18")
 	implementation("com.google.firebase:firebase-admin:7.0.1")
@@ -52,3 +55,15 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "1.8"
 	}
 }
+
+//tasks.register("buildDocker")(type: Docker, dependsOn: build) {
+//	push = true
+//	applicationName = bootJar.baseName
+//	dockerfile = file('Dockerfile')
+//	doFirst {
+//		copy {
+//			from jar
+//					into stageDir
+//		}
+//	}
+//}
